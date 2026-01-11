@@ -1,0 +1,146 @@
+{
+  "app": {
+    "title": "IT Asset Management",
+    "welcome": "Welcome to ITAM System"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "assets": "Asset Inventory",
+    "topology": "Topology Graph",
+    "import": "Data Import",
+    "settings": "System Settings",
+    "wiki": "Knowledge Base"
+  },
+  "theme": {
+    "dark": "Dark Mode",
+    "light": "Light Mode"
+  },
+  "language": {
+    "en": "English",
+    "zh": "Chinese"
+  },
+  "dashboard": {
+    "total_assets": "Total Assets",
+    "ueba_risk_score": "UEBA Risk Score",
+    "active_alerts": "Active Alerts",
+    "sla_compliance": "SLA Compliance",
+    "pending_audits": "Pending Audits",
+    "user_behavior_analytics": "User Behavior Analytics",
+    "critical_issues": "Critical Issues",
+    "system_health": "System Health (SLA)",
+    "overall_health_score": "Overall Health Score",
+    "recent_activity": "Recent Activity"
+  },
+  "asset_list": {
+    "search_placeholder": "Search assets...",
+    "all_types": "All Types",
+    "add_asset": "Add Asset",
+    "name": "Name",
+    "type": "Type",
+    "ip_endpoint": "IP / Endpoint",
+    "status": "Status",
+    "owner": "Owner",
+    "action": "Action",
+    "connect": "Connect",
+    "edit": "Edit",
+    "delete": "Delete",
+    "create_new_asset": "Create New Asset",
+    "asset_name": "Asset Name",
+    "platform": "Platform",
+    "create": "Create",
+    "messages": {
+      "load_failed": "Failed to load assets",
+      "create_success": "Asset created successfully",
+      "create_failed": "Failed to create asset"
+    },
+    "connect_modal": {
+      "title": "Connect to",
+      "ssh_terminal": "SSH Terminal",
+      "ssh_terminal_proxy": "SSH Terminal (Web Proxy)",
+      "rdp_connection": "RDP Connection (Windows)",
+      "web_console": "Web Console",
+      "open_browser": "Open in Browser",
+      "knowledge_base": "Knowledge Base",
+      "how_to_connect": "How to connect?",
+      "reset_password": "Reset Password"
+    },
+    "placeholders": {
+        "platform": "e.g. AWS, VMware"
+    },
+    "asset_types": {
+      "server": "Server",
+      "vm": "VM",
+      "container": "Container",
+      "software": "Software"
+    }
+  },
+  "import": {
+    "steps": {
+      "download_template": "Download Template",
+      "upload_file": "Upload File",
+      "verification": "Verification",
+      "done": "Done"
+    },
+    "step_descriptions": {
+      "download_template": "Get the Excel format.",
+      "upload_file": "Drag & drop your file.",
+      "verification": "Check data validity.",
+      "done": "Import complete."
+    },
+    "instructions_title": "Import Instructions",
+    "instructions_desc": "Please ensure your Excel file follows the standard template. Supported assets: Servers, VMs, Software Licenses.",
+    "step1_title": "Step 1: Get Template",
+    "step1_desc": "Download the standard asset import template (CSV format):",
+    "download_btn": "Download Template (.csv)",
+    "step2_title": "Step 2: Upload Data",
+    "upload_text": "Click or drag file to this area to upload",
+    "upload_hint": "Support for a single or bulk upload. Strictly prohibited from uploading company data or other banned files."
+  },
+  "common": {
+    "refresh": "Refresh",
+    "save": "Save Changes",
+    "edit": "Edit",
+    "users": "Users"
+  },
+  "settings": {
+    "tabs": {
+      "basic": "Basic Settings",
+      "rbac": "Users & Roles (RBAC)",
+      "audit": "Audit Logs"
+    },
+    "basic": {
+      "system_name": "System Name",
+      "admin_email": "Admin Email",
+      "enable_discovery": "Enable Auto-Discovery"
+    },
+    "rbac": {
+      "admin": "Admin",
+      "admin_desc": "Full system access",
+      "editor": "Editor",
+      "editor_desc": "Can edit assets but not system settings",
+      "viewer": "Viewer",
+      "viewer_desc": "Read-only access",
+      "members": "Members"
+    },
+    "audit": {
+      "performed": "performed",
+      "from": "from"
+    }
+  },
+  "terminal": {
+    "title": "Web Terminal (SSH Proxy)",
+    "warning": "This is a simulated terminal interface. In production, this would integrate xterm.js with WebSocket."
+  },
+  "wiki": {
+    "create_doc": "Create New Doc",
+    "all_docs": "All Documents",
+    "ops_manual": "Operations Manual",
+    "troubleshooting": "Troubleshooting",
+    "arch_docs": "Architecture Docs",
+    "knowledge_base": "Knowledge Base",
+    "search_placeholder": "Search wiki...",
+    "view": "View",
+    "last_updated": "Last updated",
+    "preview": "Preview"
+  }
+}

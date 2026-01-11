@@ -1,0 +1,146 @@
+{
+  "app": {
+    "title": "IT 资产管理系统",
+    "welcome": "欢迎使用 ITAM 系统"
+  },
+  "menu": {
+    "dashboard": "仪表盘",
+    "assets": "资产清单",
+    "topology": "拓扑关系图",
+    "import": "数据导入",
+    "settings": "系统设置",
+    "wiki": "资产知识库"
+  },
+  "theme": {
+    "dark": "深色模式",
+    "light": "浅色模式"
+  },
+  "language": {
+    "en": "英文",
+    "zh": "中文"
+  },
+  "dashboard": {
+    "total_assets": "资产总数",
+    "ueba_risk_score": "用户行为风险分",
+    "active_alerts": "活跃告警",
+    "sla_compliance": "SLA 达标率",
+    "pending_audits": "待审计项",
+    "user_behavior_analytics": "用户行为分析",
+    "critical_issues": "严重问题",
+    "system_health": "系统健康度 (SLA)",
+    "overall_health_score": "整体健康评分",
+    "recent_activity": "最近活动"
+  },
+  "asset_list": {
+    "search_placeholder": "搜索资产...",
+    "all_types": "所有类型",
+    "add_asset": "新增资产",
+    "name": "名称",
+    "type": "类型",
+    "ip_endpoint": "IP / 端点",
+    "status": "状态",
+    "owner": "负责人",
+    "action": "操作",
+    "connect": "连接",
+    "edit": "编辑",
+    "delete": "删除",
+    "create_new_asset": "创建新资产",
+    "asset_name": "资产名称",
+    "platform": "平台",
+    "create": "创建",
+    "messages": {
+      "load_failed": "加载资产失败",
+      "create_success": "资产创建成功",
+      "create_failed": "创建资产失败"
+    },
+    "connect_modal": {
+      "title": "连接到",
+      "ssh_terminal": "SSH 终端",
+      "ssh_terminal_proxy": "SSH 终端 (Web 代理)",
+      "rdp_connection": "RDP 连接 (Windows)",
+      "web_console": "Web 控制台",
+      "open_browser": "在浏览器中打开",
+      "knowledge_base": "知识库",
+      "how_to_connect": "如何连接？",
+      "reset_password": "重置密码"
+    },
+    "placeholders": {
+        "platform": "例如：AWS, VMware"
+    },
+    "asset_types": {
+      "server": "服务器",
+      "vm": "虚拟机",
+      "container": "容器",
+      "software": "软件"
+    }
+  },
+  "import": {
+    "steps": {
+      "download_template": "下载模板",
+      "upload_file": "上传文件",
+      "verification": "数据校验",
+      "done": "完成"
+    },
+    "step_descriptions": {
+      "download_template": "获取 Excel 格式",
+      "upload_file": "拖拽上传文件",
+      "verification": "检查数据有效性",
+      "done": "导入完成"
+    },
+    "instructions_title": "导入说明",
+    "instructions_desc": "请确保您的 Excel 文件遵循标准模板。支持的资产类型：服务器、虚拟机、软件许可证。",
+    "step1_title": "第一步：获取模板",
+    "step1_desc": "下载标准资产导入模板 (CSV格式)：",
+    "download_btn": "下载模板 (.csv)",
+    "step2_title": "第二步：上传数据",
+    "upload_text": "点击或拖拽文件到此区域上传",
+    "upload_hint": "支持单次或批量上传。严禁上传公司敏感数据或其他违禁文件。"
+  },
+  "common": {
+    "refresh": "刷新",
+    "save": "保存更改",
+    "edit": "编辑",
+    "users": "用户"
+  },
+  "settings": {
+    "tabs": {
+      "basic": "基本设置",
+      "rbac": "用户与角色 (RBAC)",
+      "audit": "审计日志"
+    },
+    "basic": {
+      "system_name": "系统名称",
+      "admin_email": "管理员邮箱",
+      "enable_discovery": "启用自动发现"
+    },
+    "rbac": {
+      "admin": "管理员",
+      "admin_desc": "完全系统访问权限",
+      "editor": "编辑者",
+      "editor_desc": "可编辑资产但不能修改系统设置",
+      "viewer": "查看者",
+      "viewer_desc": "只读访问权限",
+      "members": "成员"
+    },
+    "audit": {
+      "performed": "执行了",
+      "from": "来自"
+    }
+  },
+  "terminal": {
+    "title": "Web 终端 (SSH 代理)",
+    "warning": "这是一个模拟的终端界面。在生产环境中，这将与 xterm.js 和 WebSocket 集成。"
+  },
+  "wiki": {
+    "create_doc": "新建文档",
+    "all_docs": "所有文档",
+    "ops_manual": "运维手册",
+    "troubleshooting": "故障排查",
+    "arch_docs": "架构文档",
+    "knowledge_base": "知识库",
+    "search_placeholder": "搜索 Wiki...",
+    "view": "查看",
+    "last_updated": "最后更新",
+    "preview": "预览"
+  }
+}
