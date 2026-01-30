@@ -12,6 +12,9 @@ import ImportData from './pages/ImportData';
 import Settings from './pages/Settings';
 import Wiki from './pages/Wiki';
 import WebTerminal from './pages/WebTerminal';
+import ContractList from './pages/ContractList';
+import ContractDetail from './pages/ContractDetail';
+import InterfaceList from './pages/InterfaceList';
 
 const App: React.FC = () => {
   const { mode } = useThemeStore();
@@ -31,6 +34,9 @@ const App: React.FC = () => {
             <Route path="import" element={<ImportData />} />
             <Route path="settings" element={<Settings />} />
             <Route path="wiki" element={<Wiki />} />
+            <Route path="contracts" element={<ContractList />} />
+            <Route path="contracts/:id" element={<ContractDetail />} />
+            <Route path="interfaces" element={<InterfaceList />} />
           </Route>
           <Route path="/terminal" element={<WebTerminal />} />
         </Routes>

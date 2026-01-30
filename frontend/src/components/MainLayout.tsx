@@ -9,6 +9,8 @@ import {
   ImportOutlined,
   SettingOutlined,
   ReadOutlined,
+  FileTextOutlined,
+  ApiOutlined,
 } from '@ant-design/icons';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -53,6 +55,16 @@ const MainLayout: React.FC = () => {
       key: '/wiki',
       icon: <ReadOutlined />,
       label: t('menu.wiki'),
+    },
+    {
+      key: '/contracts',
+      icon: <FileTextOutlined />,
+      label: 'Contracts',
+    },
+    {
+      key: '/interfaces',
+      icon: <ApiOutlined />,
+      label: 'Interfaces',
     },
     {
       key: '/import',

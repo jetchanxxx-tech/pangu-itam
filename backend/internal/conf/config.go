@@ -65,6 +65,8 @@ func LoadConfig() *Config {
 	viper.SetDefault("database.driver", "sqlite")
 	viper.SetDefault("database.dbname", "itam.db")
 
+	var config Config
+
 	if err := viper.ReadInConfig(); err != nil {
 		log.Printf("Warning: Config file not found, using defaults. Error: %v", err)
 	}
@@ -80,7 +82,6 @@ func LoadConfig() *Config {
 		}
 	})
 
-	var config Config
 	if err := viper.Unmarshal(&config); err != nil {
 		log.Fatalf("Unable to decode into struct, %v", err)
 	}

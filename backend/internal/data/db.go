@@ -8,7 +8,7 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
-	"gorm.io/driver/sqlite"
+	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -52,7 +52,7 @@ func InitDB(cfg *conf.Config) {
 	}
 
 	// Auto Migrate
-	if err := DB.AutoMigrate(&model.Asset{}); err != nil {
+	if err := DB.AutoMigrate(&model.Asset{}, &model.Contract{}, &model.ContractFile{}, &model.SystemInterface{}); err != nil {
 		log.Fatalf("failed to migrate database: %v", err)
 	}
 

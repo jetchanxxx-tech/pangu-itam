@@ -16,6 +16,8 @@ func NewHTTPServer(c *conf.Config, notify *notification.Service) *gin.Engine {
 	
 	// Initialize Handlers
 	assetHandler := handler.NewAssetHandler(notify)
+	contractHandler := handler.NewContractHandler()
+	interfaceHandler := handler.NewInterfaceHandler()
 
 	// CORS Middleware
 	r.Use(func(c *gin.Context) {
@@ -48,6 +50,24 @@ func NewHTTPServer(c *conf.Config, notify *notification.Service) *gin.Engine {
 		api.POST("/assets", assetHandler.CreateAsset)
 		api.PUT("/assets/:id", assetHandler.UpdateAsset)
 		api.DELETE("/assets/:id", assetHandler.DeleteAsset)
+
+		// Contracts
+		api.GET("/contracts", contractHandler.GetContracts)
+		api.GET("/contracts/:id", contractHandler.GetContract)
+		api.POST("/contracts", contractHandler.CreateContract)
+		api.PUT("/contracts/:id", contractHandler.UpdateContract)
+		api.DELETE("/contracts/:id", contractHandler.DeleteContract)
+
+		// Contract Files
+		api.GET("/contracts/:id/files", contractHandler.GetContractFiles)
+		api.POST("/contracts/:id/files", contractHandler.UploadContractFile)
+		api.GET("/contract-files/:file_id/download", contractHandler.DownloadContractFile)
+
+		// Interfaces
+		api.GET("/interfaces", interfaceHandler.GetInterfaces)
+		api.POST("/interfaces", interfaceHandler.CreateInterface)
+		api.PUT("/interfaces/:id", interfaceHandler.UpdateInterface)
+		api.DELETE("/interfaces/:id", interfaceHandler.DeleteInterface)
 
 		api.GET("/ping", func(c *gin.Context) {
 			c.JSON(200, gin.H{

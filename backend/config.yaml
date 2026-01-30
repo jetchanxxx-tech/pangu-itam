@@ -4,7 +4,7 @@ server:
 
 database:
   # 数据库驱动: "sqlite", "mysql", "postgres"
-  driver: "mysql"
+  driver: "sqlite"
   
   # MySQL 配置 (driver: mysql 时生效)
   host: "localhost"
