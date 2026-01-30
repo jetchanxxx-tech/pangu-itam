@@ -1,57 +1,57 @@
-# Pangu ITAM (IT Asset Management System)
+# Pangu ITAM (IT 资产管理系统)
 
-A comprehensive IT Asset Management system built with Go and React.
+一个基于 Go 和 React 构建的综合 IT 资产管理系统。
 
-## 📚 Documentation
+## 📚 文档
 
-Detailed documentation is available in the `docs/` directory:
-- [Deployment Guide](docs/DEPLOYMENT.md)
-- [System Architecture](docs/ARCHITECTURE.md)
-- [Operations Runbook](docs/OPERATIONS.md)
+详细文档位于 `docs/` 目录下：
+- [部署指南](docs/DEPLOYMENT.md)
+- [系统架构](docs/ARCHITECTURE.md)
+- [运维手册](docs/OPERATIONS.md)
 
-## 📂 Project Structure
+## 📂 项目结构
 
 ```
 .
-├── backend/                # Golang + Gin + GORM API Server
-│   ├── cmd/server/         # Application entry point
-│   ├── internal/           # Private application code
-│   │   ├── conf/           # Configuration management
-│   │   ├── data/           # Database initialization
-│   │   ├── handler/        # HTTP Request handlers (Asset, Contract, Interface)
-│   │   ├── model/          # Database models
-│   │   └── server/         # HTTP Server setup (Routes)
-│   └── config.yaml         # Server configuration
-├── frontend/               # React + Vite + Ant Design UI
+├── backend/                # Golang + Gin + GORM API 服务端
+│   ├── cmd/server/         # 应用入口
+│   ├── internal/           # 内部应用代码
+│   │   ├── conf/           # 配置管理
+│   │   ├── data/           # 数据库初始化
+│   │   ├── handler/        # HTTP 请求处理 (资产, 合同, 接口)
+│   │   ├── model/          # 数据库模型
+│   │   └── server/         # HTTP 服务设置 (路由)
+│   └── config.yaml         # 服务端配置
+├── frontend/               # React + Vite + Ant Design UI 前端
 │   ├── src/
-│   │   ├── components/     # Reusable components
-│   │   ├── pages/          # Application pages (Dashboard, Assets, Contracts, Wiki)
-│   │   ├── services/       # API integration
-│   │   └── store/          # State management (Zustand)
-├── docs/                   # Project documentation
-└── install.sh              # Deployment script
+│   │   ├── components/     # 可复用组件
+│   │   ├── pages/          # 应用页面 (仪表盘, 资产, 合同, Wiki)
+│   │   ├── services/       # API 集成
+│   │   └── store/          # 状态管理 (Zustand)
+├── docs/                   # 项目文档
+└── install.sh              # 部署脚本
 ```
 
-## 🛠 Tech Stack
+## 🛠 技术栈
 
-- **Backend**: Go 1.20+, Gin Web Framework, GORM
-- **Database**: SQLite (Default) / MySQL
-- **Frontend**: React 18, TypeScript, Vite, Ant Design 5
-- **State Management**: Zustand
-- **Internationalization**: react-i18next
+- **后端**: Go 1.20+, Gin Web Framework, GORM
+- **数据库**: SQLite (默认) / MySQL
+- **前端**: React 18, TypeScript, Vite, Ant Design 5
+- **状态管理**: Zustand
+- **国际化**: react-i18next
 
-## ✨ Features
+## ✨ 功能特性
 
-- **Asset Management**: Track Servers, VMs, and Network devices.
-- **Contract Management**: Lifecycle management with file versioning support.
-- **Interface Management**: Centralized system interface registry.
-- **Dashboard**: Real-time overview of asset status.
-- **Wiki**: Integrated documentation viewer.
-- **Web Terminal**: SSH/Telnet access (Simulated/Planned).
+- **资产管理**: 追踪服务器、虚拟机和网络设备。
+- **合同管理**: 支持文件版本控制的生命周期管理。
+- **接口管理**: 集中式系统接口注册表。
+- **仪表盘**: 资产状态的实时概览。
+- **Wiki**: 集成文档查看器。
+- **Web 终端**: SSH/Telnet 访问 (模拟/计划中)。
 
-## 🚀 Getting Started
+## 🚀 快速开始
 
-### Backend
+### 后端
 
 ```bash
 cd backend
@@ -59,9 +59,9 @@ go mod tidy
 go run cmd/server/main.go
 ```
 
-The server runs on port `8080` by default.
+服务器默认运行在 `8080` 端口。
 
-### Frontend
+### 前端
 
 ```bash
 cd frontend
@@ -69,9 +69,9 @@ npm install
 npm run dev
 ```
 
-Access the UI at `http://localhost:5173`.
+访问 UI 地址：`http://localhost:5173`。
 
-## ⚙️ Configuration
+## ⚙️ 配置
 
-Backend configuration is found in `backend/config.yaml`.
-Default database is SQLite (`itam.db`). Change `driver` to `mysql` for production.
+后端配置位于 `backend/config.yaml`。
+默认数据库为 SQLite (`itam.db`)。生产环境请将 `driver` 更改为 `mysql`。
