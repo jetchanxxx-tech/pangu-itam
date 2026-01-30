@@ -1,21 +1,57 @@
-# ITAM System Development Guide
+# Pangu ITAM (IT Asset Management System)
 
-## Project Structure
+A comprehensive IT Asset Management system built with Go and React.
 
-- `backend/`: Golang + Gin + GORM API Server
-- `frontend/`: React + Vite + Ant Design UI
-- `install.sh`: Server deployment script (Docker)
+## 📚 Documentation
 
-## Prerequisites
+Detailed documentation is available in the `docs/` directory:
+- [Deployment Guide](docs/DEPLOYMENT.md)
+- [System Architecture](docs/ARCHITECTURE.md)
+- [Operations Runbook](docs/OPERATIONS.md)
 
-- **Go**: v1.20+
-- **Node.js**: v18+
-- **PostgreSQL**: v15 (Or use Docker Compose)
-- **Redis**: v7 (Or use Docker Compose)
+## 📂 Project Structure
 
-## Getting Started
+```
+.
+├── backend/                # Golang + Gin + GORM API Server
+│   ├── cmd/server/         # Application entry point
+│   ├── internal/           # Private application code
+│   │   ├── conf/           # Configuration management
+│   │   ├── data/           # Database initialization
+│   │   ├── handler/        # HTTP Request handlers (Asset, Contract, Interface)
+│   │   ├── model/          # Database models
+│   │   └── server/         # HTTP Server setup (Routes)
+│   └── config.yaml         # Server configuration
+├── frontend/               # React + Vite + Ant Design UI
+│   ├── src/
+│   │   ├── components/     # Reusable components
+│   │   ├── pages/          # Application pages (Dashboard, Assets, Contracts, Wiki)
+│   │   ├── services/       # API integration
+│   │   └── store/          # State management (Zustand)
+├── docs/                   # Project documentation
+└── install.sh              # Deployment script
+```
 
-### 1. Backend
+## 🛠 Tech Stack
+
+- **Backend**: Go 1.20+, Gin Web Framework, GORM
+- **Database**: SQLite (Default) / MySQL
+- **Frontend**: React 18, TypeScript, Vite, Ant Design 5
+- **State Management**: Zustand
+- **Internationalization**: react-i18next
+
+## ✨ Features
+
+- **Asset Management**: Track Servers, VMs, and Network devices.
+- **Contract Management**: Lifecycle management with file versioning support.
+- **Interface Management**: Centralized system interface registry.
+- **Dashboard**: Real-time overview of asset status.
+- **Wiki**: Integrated documentation viewer.
+- **Web Terminal**: SSH/Telnet access (Simulated/Planned).
+
+## 🚀 Getting Started
+
+### Backend
 
 ```bash
 cd backend
@@ -23,9 +59,9 @@ go mod tidy
 go run cmd/server/main.go
 ```
 
-Configuration is located in `backend/configs/config.yaml` (Create if needed, defaults are used).
+The server runs on port `8080` by default.
 
-### 2. Frontend
+### Frontend
 
 ```bash
 cd frontend
@@ -33,18 +69,9 @@ npm install
 npm run dev
 ```
 
-Access the UI at `http://localhost:3000`.
+Access the UI at `http://localhost:5173`.
 
-## Features Implemented
+## ⚙️ Configuration
 
-- **Frontend Architecture**: React + Vite + TypeScript
-- **UI Framework**: Ant Design v5
-- **Theme Support**: Light/Dark mode toggle (Persisted in State)
-- **Internationalization (i18n)**: English/Chinese switching
-- **Backend Architecture**: Modular Monolith (Gin + GORM)
-
-## Next Steps
-
-1. Implement Database Models in `backend/internal/data`
-2. Implement Authentication (RBAC)
-3. Connect Frontend API calls to Backend
+Backend configuration is found in `backend/config.yaml`.
+Default database is SQLite (`itam.db`). Change `driver` to `mysql` for production.
