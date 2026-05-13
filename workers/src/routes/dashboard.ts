@@ -5,9 +5,9 @@ export async function stats(c: Context): Promise<Response> {
   const db = c.env.DB;
 
   const [assetRow, offlineRow, onlineRow, contractRow, activeContractRow, expiringRow] = await Promise.all([
-    db.prepare('SELECT COUNT(*) as count FROM assets').first() as Promise<{ count: number } | null>,
-    db.prepare("SELECT COUNT(*) as count FROM assets WHERE status IN ('Offline', 'Maintenance', 'Stopped')").first() as Promise<{ count: number } | null>,
-    db.prepare("SELECT COUNT(*) as count FROM assets WHERE status = 'Online'").first() as Promise<{ count: number } | null>,
+    db.prepare('SELECT COUNT(*) as count FROM assets WHERE archived = 0').first() as Promise<{ count: number } | null>,
+    db.prepare("SELECT COUNT(*) as count FROM assets WHERE archived = 0 AND status IN ('Offline', 'Maintenance')").first() as Promise<{ count: number } | null>,
+    db.prepare("SELECT COUNT(*) as count FROM assets WHERE archived = 0 AND status = 'Online'").first() as Promise<{ count: number } | null>,
     db.prepare('SELECT COUNT(*) as count FROM contracts').first() as Promise<{ count: number } | null>,
     db.prepare("SELECT COUNT(*) as count FROM contracts WHERE status = 'active'").first() as Promise<{ count: number } | null>,
     db.prepare("SELECT COUNT(*) as count FROM contracts WHERE status = 'active' AND end_date <= date('now', '+30 days')").first() as Promise<{ count: number } | null>,

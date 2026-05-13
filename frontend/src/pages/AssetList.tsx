@@ -167,7 +167,7 @@ const AssetList: React.FC = () => {
             <Select.Option value="Container">{t('asset_list.asset_types.container')}</Select.Option>
             <Select.Option value="Software">{t('asset_list.asset_types.software')}</Select.Option>
           </Select>
-          <Button onClick={() => setShowArchived(!showArchived)} type={showArchived ? 'primary' : 'default'}>
+          <Button onClick={() => { setShowArchived(!showArchived); fetchAssets(1, pagination.pageSize); }} type={showArchived ? 'primary' : 'default'}>
             {showArchived ? '查看活跃资产' : '查看归档'}
           </Button>
           <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>{t('asset_list.add_asset')}</Button>

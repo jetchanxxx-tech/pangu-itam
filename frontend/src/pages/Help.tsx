@@ -154,7 +154,7 @@ const Help: React.FC = () => {
               { color: 'green', children: '点击「Add Asset」新增资产' },
               { color: 'orange', children: '点击编辑图标修改资产信息' },
               { color: 'red', children: '点击删除图标移除资产（需确认）' },
-              { color: 'green', children: '点击「Connect」远程连接资产' },
+              { color: 'green', children: '切换归档视图查看已归档资产' },
             ]}
           />
           <Divider />

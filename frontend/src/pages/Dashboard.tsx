@@ -4,6 +4,7 @@ import {
   CheckCircleOutlined, WarningOutlined, DesktopOutlined,
   FileTextOutlined, ClockCircleOutlined, ThunderboltOutlined,
 } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getDashboardStats, DashboardStats } from '../services/api';
 
@@ -11,6 +12,7 @@ const { Title } = Typography;
 
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [stats, setStats] = useState<DashboardStats | null>(null);
 
   useEffect(() => {
@@ -112,22 +114,22 @@ const Dashboard: React.FC = () => {
           <Card title="快速操作" bordered={false}>
             <Row gutter={[16, 16]}>
               <Col span={12}>
-                <Card size="small" hoverable onClick={() => window.location.href = '/assets'}>
+                <Card size="small" hoverable onClick={() => navigate('/assets')}>
                   <Statistic title="资产管理" value="查看" prefix={<DesktopOutlined />} />
                 </Card>
               </Col>
               <Col span={12}>
-                <Card size="small" hoverable onClick={() => window.location.href = '/contracts'}>
+                <Card size="small" hoverable onClick={() => navigate('/contracts')}>
                   <Statistic title="合同管理" value="查看" prefix={<FileTextOutlined />} />
                 </Card>
               </Col>
               <Col span={12}>
-                <Card size="small" hoverable onClick={() => window.location.href = '/import'}>
+                <Card size="small" hoverable onClick={() => navigate('/import')}>
                   <Statistic title="数据导入" value="导入" prefix={<ThunderboltOutlined />} />
                 </Card>
               </Col>
               <Col span={12}>
-                <Card size="small" hoverable onClick={() => window.location.href = '/help'}>
+                <Card size="small" hoverable onClick={() => navigate('/help')}>
                   <Statistic title="帮助中心" value="查看" prefix={<ClockCircleOutlined />} />
                 </Card>
               </Col>
