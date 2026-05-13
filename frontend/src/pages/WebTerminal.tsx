@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Typography, Alert, Button, Space, Input, Form, Card, message } from 'antd';
+import { Typography, Button, Space, Input, Form, Card, message } from 'antd';
 import { Terminal } from '@xterm/xterm';
 import { FitAddon } from '@xterm/addon-fit';
 import { WebLinksAddon } from '@xterm/addon-web-links';
-import { useSearchParams } from 'react-router-dom';
 import '@xterm/xterm/css/xterm.css';
 
 const { Title } = Typography;
@@ -14,9 +13,10 @@ const TERM_HEADER = '#161B22';
 const CARD_BG = '#1C2128';
 const CARD_BORDER = '#30363D';
 const INPUT_BG = '#21262D';
-const INPUT_TEXT = '#C9D1D9';
+const INPUT_TEXT = '#E6EDF3';
 const INPUT_BORDER = '#30363D';
 const ALERT_BG = '#161B22';
+const ALERT_TEXT = '#C9D1D9';
 const TEXT_MUTED = '#8B949E';
 const ACCENT = '#03DAC6';
 
@@ -27,11 +27,11 @@ const WebTerminal: React.FC = () => {
   const [connected, setConnected] = useState(false);
   const [configMode, setConfigMode] = useState(true);
   const [form] = Form.useForm();
-  const [searchParams] = useSearchParams();
 
-  // Read host/port from URL query (passed from asset connect)
-  const passedHost = searchParams.get('host') || '';
-  const passedPort = searchParams.get('port') || '22';
+  // Read host/port from URL query (passed from asset connect) — use plain URLSearchParams, no hook
+  const query = new URLSearchParams(window.location.search);
+  const passedHost = query.get('host') || '';
+  const passedPort = query.get('port') || '22';
 
   const connect = (values: { host: string; port: string; user: string; password: string }) => {
     const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -191,18 +191,18 @@ const WebTerminal: React.FC = () => {
           }}
           bodyStyle={{ padding: 20 }}
         >
-          <Alert
-            message="终端连接配置"
-            description={passedHost
-              ? `从资产管理页面跳转，已自动填入目标地址 ${passedHost}:${passedPort}`
-              : '输入目标服务器的连接信息。终端通过 Cloudflare Workers WebSocket 代理连接。'}
-            type="info"
-            showIcon
-            style={{
-              marginBottom: 20, background: ALERT_BG, border: `1px solid ${CARD_BORDER}`,
-              color: INPUT_TEXT,
-            }}
-          />
+          <div style={{
+            marginBottom: 20, background: ALERT_BG, border: `1px solid ${CARD_BORDER}`,
+            borderRadius: 6, padding: '12px 16px', color: ALERT_TEXT, fontSize: 13,
+            lineHeight: 1.6,
+          }}>
+            <div style={{ fontWeight: 600, marginBottom: 4, color: '#58A6FF' }}>
+              终端连接配置
+            </div>
+            {passedHost
+              ? `从资产管理页面跳转，已自动填入目标 ${passedHost}:${passedPort}`
+              : '输入目标服务器的连接信息。通过 Cloudflare Workers WebSocket 代理连接。'}
+          </div>
 
           <Form
             form={form}
@@ -210,28 +210,32 @@ const WebTerminal: React.FC = () => {
             onFinish={connect}
             initialValues={{ host: passedHost, port: passedPort, user: 'root' }}
           >
-            <Form.Item name="host" rules={[{ required: true, message: '输入主机地址' }]}>
+            <Form.Item name="host" rules={[{ required: true, message: '输入主机地址' }]}
+              label={<span style={{ color: INPUT_TEXT }}>主机</span>}>
               <Input
                 placeholder="主机地址"
-                style={{ width: 160, background: INPUT_BG, color: INPUT_TEXT, borderColor: INPUT_BORDER }}
+                style={{ width: 150, background: INPUT_BG, color: INPUT_TEXT, borderColor: INPUT_BORDER }}
               />
             </Form.Item>
-            <Form.Item name="port">
+            <Form.Item name="port"
+              label={<span style={{ color: INPUT_TEXT }}>端口</span>}>
               <Input
-                placeholder="端口"
-                style={{ width: 80, background: INPUT_BG, color: INPUT_TEXT, borderColor: INPUT_BORDER }}
+                placeholder="22"
+                style={{ width: 70, background: INPUT_BG, color: INPUT_TEXT, borderColor: INPUT_BORDER }}
               />
             </Form.Item>
-            <Form.Item name="user" rules={[{ required: true, message: '输入用户名' }]}>
+            <Form.Item name="user" rules={[{ required: true, message: '输入用户名' }]}
+              label={<span style={{ color: INPUT_TEXT }}>用户</span>}>
               <Input
-                placeholder="用户名"
-                style={{ width: 130, background: INPUT_BG, color: INPUT_TEXT, borderColor: INPUT_BORDER }}
+                placeholder="root"
+                style={{ width: 120, background: INPUT_BG, color: INPUT_TEXT, borderColor: INPUT_BORDER }}
               />
             </Form.Item>
-            <Form.Item name="password">
+            <Form.Item name="password"
+              label={<span style={{ color: INPUT_TEXT }}>密码</span>}>
               <Input.Password
                 placeholder="密码"
-                style={{ width: 140, background: INPUT_BG, color: INPUT_TEXT, borderColor: INPUT_BORDER }}
+                style={{ width: 130, background: INPUT_BG, color: INPUT_TEXT, borderColor: INPUT_BORDER }}
               />
             </Form.Item>
             <Form.Item>
@@ -265,7 +269,7 @@ const WebTerminal: React.FC = () => {
                   URL.revokeObjectURL(url);
                   message.success(`RDP 文件已下载 (${host}:${port})`);
                 }}
-                style={{ color: TEXT_MUTED }}
+                style={{ color: TEXT_MUTED, borderColor: CARD_BORDER }}
               >
                 下载 RDP 连接文件
               </Button>
@@ -277,7 +281,7 @@ const WebTerminal: React.FC = () => {
                   const user = form.getFieldValue('user') || 'root';
                   message.info(`SSH 命令: ssh ${user}@${host} -p ${port}`);
                 }}
-                style={{ color: TEXT_MUTED }}
+                style={{ color: TEXT_MUTED, borderColor: CARD_BORDER }}
               >
                 SSH 命令行帮助
               </Button>

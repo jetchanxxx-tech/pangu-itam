@@ -72,10 +72,29 @@
   background: #6200EE;
 }
 
+/* --- Dark Surface Text Visibility --- */
+.ant-form-item-label > label {
+  color: inherit;
+}
+.ant-input::placeholder,
+.ant-input-password::placeholder {
+  color: rgba(255,255,255,0.3) !important;
+}
+.ant-alert-info {
+  background: rgba(3, 218, 198, 0.08);
+  border-color: rgba(3, 218, 198, 0.25);
+}
+.ant-alert-info .ant-alert-message {
+  color: #03DAC6;
+}
+.ant-alert-info .ant-alert-description {
+  color: #B8A9D4;
+}
+
 /* --- Links & Selection --- */
 ::selection {
   background: rgba(98, 0, 238, 0.2);
-  color: #1E1235;
+  color: #FFFFFF;
 }
 a {
   color: #6200EE;
