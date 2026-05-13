@@ -254,7 +254,7 @@ const AssetList: React.FC = () => {
         footer={null}
       >
         <div style={{ display: 'grid', gap: 10 }}>
-          <Button block icon={<CodeOutlined />} onClick={() => { setIsConnectModalOpen(false); navigate('/terminal'); }}>
+          <Button block icon={<CodeOutlined />} onClick={() => { setIsConnectModalOpen(false); navigate(`/terminal?host=${encodeURIComponent(currentAsset?.ip || '')}`); }}>
             {t('asset_list.connect_modal.ssh_terminal_proxy')}
           </Button>
           <Button block icon={<WindowsOutlined />} disabled={currentAsset?.type !== 'VM' && currentAsset?.type !== 'Server'}>
