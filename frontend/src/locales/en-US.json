@@ -42,7 +42,6 @@
     "status": "Status",
     "owner": "Owner",
     "action": "Action",
-    "connect": "Connect",
     "edit": "Edit",
     "delete": "Delete",
     "create_new_asset": "Create New Asset",
@@ -53,17 +52,6 @@
       "load_failed": "Failed to load assets",
       "create_success": "Asset created successfully",
       "create_failed": "Failed to create asset"
-    },
-    "connect_modal": {
-      "title": "Connect to",
-      "ssh_terminal": "SSH Terminal",
-      "ssh_terminal_proxy": "SSH Terminal (Web Proxy)",
-      "rdp_connection": "RDP Connection (Windows)",
-      "web_console": "Web Console",
-      "open_browser": "Open in Browser",
-      "knowledge_base": "Knowledge Base",
-      "how_to_connect": "How to connect?",
-      "reset_password": "Reset Password"
     },
     "placeholders": {
         "platform": "e.g. AWS, VMware"
@@ -127,10 +115,6 @@
       "performed": "performed",
       "from": "from"
     }
-  },
-  "terminal": {
-    "title": "Web Terminal (SSH Proxy)",
-    "warning": "This is a simulated terminal interface. In production, this would integrate xterm.js with WebSocket."
   },
   "wiki": {
     "create_doc": "Create New Doc",

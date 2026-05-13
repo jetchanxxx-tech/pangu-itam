@@ -164,14 +164,6 @@ async function main() {
     ok('设置页面加载');
   } catch (e) { fail('设置', e.message); }
 
-  // 11. Web Terminal
-  console.log('\n[11] Web 终端');
-  try {
-    await page.goto(`${BASE}/terminal`, { waitUntil: 'domcontentloaded', timeout: 10000 });
-    await page.waitForSelector('.xterm', { timeout: 5000 });
-    ok('Web 终端 (xterm.js) 加载');
-  } catch (e) { fail('终端', e.message); }
-
   await browser.close();
 
   console.log(`\n=== 测试结果: ${passed} 通过 / ${passed + failed} 总计 ===`);

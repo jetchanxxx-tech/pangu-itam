@@ -92,10 +92,6 @@
 *不仅仅是记录资产，更是运维工作的“快捷启动器”和“说明书”。*
 
 *   **一键连接 (One-Click Connect)**
-    *   **服务器连接**：
-        *   集成 Web Terminal (xterm.js)，点击服务器 IP 可直接唤起 SSH/Telnet 会话。
-        *   支持 Windows RDP 连接（下载 `.rdp` 文件或 Web 代理连接）。
-        *   自动填充凭证：后端自动调用已关联的账号密码，实现 SSO 体验（需严格权限控制）。
     *   **业务系统访问**：
         *   点击应用链接，自动在新标签页打开。
         *   若系统支持，自动复制测试账号/密码到剪贴板，或通过浏览器插件自动填入。
@@ -241,12 +237,6 @@ graph TD
             Wiki[Knowledge Base]
         end
         
-        subgraph "Engines"
-            Discovery[Auto-Discovery Engine]
-            Job[Job Scheduler]
-            SSH_Proxy[Web Terminal Proxy]
-        end
-        
         subgraph "Extension"
             Plugin[Plugin Manager]
             Script[Lua/Python Sandbox]
@@ -269,7 +259,6 @@ graph TD
     Mobile --> LB
     API_Client --> LB
     LB --> CMDB
-    LB --> SSH_Proxy
 
     CMDB --> PG
     RBAC --> PG

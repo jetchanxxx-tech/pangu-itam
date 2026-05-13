@@ -42,7 +42,6 @@
     "status": "状态",
     "owner": "负责人",
     "action": "操作",
-    "connect": "连接",
     "edit": "编辑",
     "delete": "删除",
     "create_new_asset": "创建新资产",
@@ -53,17 +52,6 @@
       "load_failed": "加载资产失败",
       "create_success": "资产创建成功",
       "create_failed": "创建资产失败"
-    },
-    "connect_modal": {
-      "title": "连接到",
-      "ssh_terminal": "SSH 终端",
-      "ssh_terminal_proxy": "SSH 终端 (Web 代理)",
-      "rdp_connection": "RDP 连接 (Windows)",
-      "web_console": "Web 控制台",
-      "open_browser": "在浏览器中打开",
-      "knowledge_base": "知识库",
-      "how_to_connect": "如何连接？",
-      "reset_password": "重置密码"
     },
     "placeholders": {
         "platform": "例如：AWS, VMware"
@@ -127,10 +115,6 @@
       "performed": "执行了",
       "from": "来自"
     }
-  },
-  "terminal": {
-    "title": "Web 终端 (SSH 代理)",
-    "warning": "这是一个模拟的终端界面。在生产环境中，这将与 xterm.js 和 WebSocket 集成。"
   },
   "wiki": {
     "create_doc": "新建文档",

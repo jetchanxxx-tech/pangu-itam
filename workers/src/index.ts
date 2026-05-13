@@ -9,15 +9,12 @@ import * as contractFiles from './routes/contract-files';
 import * as interfaces from './routes/interfaces';
 import * as dashboard from './routes/dashboard';
 import * as wiki from './routes/wiki';
-import { handleTerminalWs } from './routes/terminal';
-
 export type Env = {
   DB: D1Database;
   JWT_SECRET: string;
   NOTIFICATION_ENABLE?: string;
   FEISHU_WEBHOOK?: string;
   FEISHU_SECRET?: string;
-  TERMINAL_GATEWAY_URL?: string;
 };
 
 const app = new Hono<{ Bindings: Env }>();
@@ -80,7 +77,6 @@ api.get('/ping', (c) =>
   c.json({ ok: true, data: { message: 'pong' } })
 );
 
-app.get('/api/v1/terminal/ws', (c) => handleTerminalWs(c.req.raw, c.env));
 app.route('/api/v1', api);
 
 export default app;

@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Tag, Space, Button, Input, Select, Typography, Modal, Form, message, Popconfirm } from 'antd';
-import { SearchOutlined, PlusOutlined, DesktopOutlined, CloudServerOutlined, AppstoreOutlined, CodeOutlined, LinkOutlined, WindowsOutlined, EditOutlined, DeleteOutlined, FolderOpenOutlined, UndoOutlined } from '@ant-design/icons';
+import { SearchOutlined, PlusOutlined, DesktopOutlined, CloudServerOutlined, AppstoreOutlined, EditOutlined, DeleteOutlined, FolderOpenOutlined, UndoOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { getAssets, createAsset, updateAsset, deleteAsset, archiveAsset, unarchiveAsset, Asset } from '../services/api';
 
 const { Title } = Typography;
 
 const AssetList: React.FC = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
   const [assets, setAssets] = useState<Asset[]>([]);
   const [loading, setLoading] = useState(false);
@@ -18,8 +16,6 @@ const AssetList: React.FC = () => {
   const [pagination, setPagination] = useState({ current: 1, pageSize: 20, total: 0 });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingAsset, setEditingAsset] = useState<Asset | null>(null);
-  const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
-  const [currentAsset, setCurrentAsset] = useState<Asset | null>(null);
   const [form] = Form.useForm();
 
   const fetchAssets = async (page = 1, pageSize = 20) => {
@@ -87,11 +83,6 @@ const AssetList: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleConnect = (record: Asset) => {
-    setCurrentAsset(record);
-    setIsConnectModalOpen(true);
-  };
-
   const sortedAssets = typeFilter === 'All' ? assets : assets.filter(a => a.type === typeFilter);
 
   const columns = [
@@ -139,7 +130,6 @@ const AssetList: React.FC = () => {
       key: 'action',
       render: (_: unknown, record: Asset) => (
         <Space size="middle">
-          <a onClick={() => handleConnect(record)}>{t('asset_list.connect')}</a>
           <a onClick={() => openEdit(record)}><EditOutlined /></a>
           {showArchived ? (
             <Popconfirm title="取消归档？" onConfirm={async () => { await unarchiveAsset(record.id); fetchAssets(pagination.current, pagination.pageSize); }}>
@@ -247,24 +237,6 @@ const AssetList: React.FC = () => {
         </Form>
       </Modal>
 
-      <Modal
-        title={`${t('asset_list.connect_modal.title')} ${currentAsset?.name}`}
-        open={isConnectModalOpen}
-        onCancel={() => setIsConnectModalOpen(false)}
-        footer={null}
-      >
-        <div style={{ display: 'grid', gap: 10 }}>
-          <Button block icon={<CodeOutlined />} onClick={() => { setIsConnectModalOpen(false); navigate(`/terminal?host=${encodeURIComponent(currentAsset?.ip || '')}`); }}>
-            {t('asset_list.connect_modal.ssh_terminal_proxy')}
-          </Button>
-          <Button block icon={<WindowsOutlined />} disabled={currentAsset?.type !== 'VM' && currentAsset?.type !== 'Server'}>
-            {t('asset_list.connect_modal.rdp_connection')}
-          </Button>
-          <Button block icon={<LinkOutlined />} onClick={() => currentAsset?.ip && window.open(`http://${currentAsset.ip}`, '_blank')}>
-            {t('asset_list.connect_modal.open_browser')}
-          </Button>
-        </div>
-      </Modal>
     </div>
   );
 };

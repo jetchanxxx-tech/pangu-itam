@@ -15,7 +15,6 @@ import Interfaces from './pages/Interfaces';
 import ImportData from './pages/ImportData';
 import Settings from './pages/Settings';
 import Help from './pages/Help';
-import WebTerminal from './pages/WebTerminal';
 
 const App: React.FC = () => {
   const { mode } = useThemeStore();
@@ -74,7 +73,6 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/terminal" element={<WebTerminal />} />
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="assets" element={<AssetList />} />

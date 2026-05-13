@@ -48,7 +48,6 @@
 | 📝 **合同管理** | 合同全生命周期，文件版本化管理（D1 BLOB 存储，≤10MB） |
 | 🔌 **接口注册** | 系统 API 接口元数据集中管理，方法/URL/状态跟踪 |
 | 📚 **知识库** | 创建/编辑/删除文章，分类与标签，全文搜索 |
-| 💻 **Web 终端** | 基于 xterm.js 的真实终端模拟，WebSocket 代理，RDP 文件下载 |
 | 📥 **数据导入** | CSV 模板下载 + 批量导入 + 结果反馈 |
 | ❓ **帮助中心** | 内置功能指南、FAQ、API 参考、快捷操作说明 |
 | 🌍 **国际化** | 中文（默认）/ English，一键切换 |
@@ -69,7 +68,6 @@
 | **前端框架** | React 18 + TypeScript |
 | **构建工具** | Vite 4 |
 | **UI 组件** | Ant Design 5 (自定义紫-青主题) |
-| **终端** | @xterm/xterm + WebSocket |
 | **国际化** | react-i18next + i18next |
 | **状态管理** | Zustand |
 | **E2E 测试** | Playwright |
@@ -84,15 +82,14 @@ pangu-itam/
 ├── workers/                          # Cloudflare Workers 后端
 │   ├── src/
 │   │   ├── index.ts                  # Hono 入口，路由注册
-│   │   ├── routes/                   # 10 个路由模块
+│   │   ├── routes/                   # 9 个路由模块
 │   │   │   ├── auth.ts               #   登录/登出/用户信息
 │   │   │   ├── assets.ts             #   资产 CRUD + 归档 + CSV 导入
 │   │   │   ├── contracts.ts          #   合同 CRUD
 │   │   │   ├── contract-files.ts     #   文件上传/下载/版本
 │   │   │   ├── interfaces.ts         #   系统接口 CRUD
 │   │   │   ├── wiki.ts               #   知识库 CRUD
-│   │   │   ├── dashboard.ts          #   仪表盘统计
-│   │   │   └── terminal.ts           #   WebSocket 终端代理
+│   │   │   └── dashboard.ts          #   仪表盘统计
 │   │   ├── middleware/               # JWT 认证, CORS, 错误处理, 分页
 │   │   ├── services/                 # JWT (Web Crypto), 文件存储, 飞书通知
 │   │   └── utils/                    # 统一响应, Zod 校验
@@ -100,14 +97,13 @@ pangu-itam/
 │   └── wrangler.toml
 ├── frontend/                         # React SPA 前端
 │   ├── src/
-│   │   ├── pages/                    # 14 个页面组件
+│   │   ├── pages/                    # 12 个页面组件
 │   │   │   ├── Login.tsx             #   登录（Logo + 渐变背景）
 │   │   │   ├── Dashboard.tsx         #   仪表盘（实时指标）
 │   │   │   ├── AssetList.tsx         #   资产管理 + 归档
 │   │   │   ├── Contracts.tsx         #   合同管理 + 文件版本
 │   │   │   ├── Interfaces.tsx        #   接口注册中心
 │   │   │   ├── Wiki.tsx              #   知识库 CRUD
-│   │   │   ├── WebTerminal.tsx       #   xterm.js 终端
 │   │   │   ├── ImportData.tsx        #   CSV 导入
 │   │   │   ├── Help.tsx              #   帮助中心
 │   │   │   └── ...
@@ -136,8 +132,7 @@ pangu-itam/
 │  ┌─────────────────────┐         ┌──────────────────┐  │
 │  │ React 18 + Vite     │  HTTP   │ Hono + TypeScript │  │
 │  │ Ant Design 5        │◄───────►│ JWT Auth          │  │
-│  │ xterm.js            │  /api   │ Zod Validation    │  │
-│  │ i18next (zh/en)     │         │ WebSocket (SSH)   │  │
+│  │ i18next (zh/en)     │  /api   │ Zod Validation    │  │
 │  └─────────────────────┘         └────────┬─────────┘  │
 │                                           │             │
 │                                     D1 (itam-db)       │
