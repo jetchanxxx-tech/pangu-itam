@@ -50,12 +50,22 @@ export interface ApiList<T> {
 
 export interface DashboardStats {
   total_assets: number;
+  online_assets: number;
+  offline_assets: number;
   total_contracts: number;
   active_contracts: number;
-  ueba_score: number;
-  active_alerts: number;
+  expiring_contracts: number;
   sla_compliance: number;
-  pending_audits: number;
+}
+
+export interface WikiArticle {
+  id: number;
+  title: string;
+  content: string;
+  category: string;
+  tags: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Asset {
@@ -151,7 +161,7 @@ export const getDashboardStats = async (): Promise<ApiOk<DashboardStats>> => {
 
 // Assets
 export const getAssets = async (params?: {
-  page?: number; limit?: number; sort?: string; order?: 'asc' | 'desc'; search?: string;
+  page?: number; limit?: number; sort?: string; order?: 'asc' | 'desc'; search?: string; archived?: string;
 }): Promise<ApiList<Asset>> => {
   const response = await api.get('/assets', { params });
   return response.data;
@@ -253,6 +263,59 @@ export const updateInterface = async (id: number, data: Partial<SystemInterface>
 
 export const deleteInterface = async (id: number): Promise<ApiOk<{ message: string }>> => {
   const response = await api.delete(`/interfaces/${id}`);
+  return response.data;
+};
+
+// Wiki
+export const getWikiArticles = async (params?: {
+  page?: number; limit?: number; search?: string; category?: string;
+}): Promise<ApiList<WikiArticle>> => {
+  const response = await api.get('/wiki', { params });
+  return response.data;
+};
+
+export const getWikiArticle = async (id: number): Promise<ApiOk<WikiArticle>> => {
+  const response = await api.get(`/wiki/${id}`);
+  return response.data;
+};
+
+export const createWikiArticle = async (data: Partial<WikiArticle>): Promise<ApiOk<WikiArticle>> => {
+  const response = await api.post('/wiki', data);
+  return response.data;
+};
+
+export const updateWikiArticle = async (id: number, data: Partial<WikiArticle>): Promise<ApiOk<WikiArticle>> => {
+  const response = await api.put(`/wiki/${id}`, data);
+  return response.data;
+};
+
+export const deleteWikiArticle = async (id: number): Promise<ApiOk<{ message: string }>> => {
+  const response = await api.delete(`/wiki/${id}`);
+  return response.data;
+};
+
+export const getWikiCategories = async (): Promise<ApiOk<string[]>> => {
+  const response = await api.get('/wiki/categories');
+  return response.data;
+};
+
+// Asset archive & import
+export const archiveAsset = async (id: number): Promise<ApiOk<{ message: string }>> => {
+  const response = await api.post(`/assets/${id}/archive`);
+  return response.data;
+};
+
+export const unarchiveAsset = async (id: number): Promise<ApiOk<{ message: string }>> => {
+  const response = await api.post(`/assets/${id}/unarchive`);
+  return response.data;
+};
+
+export const importAssetsCsv = async (file: File): Promise<ApiOk<{ imported: number; total: number; errors?: string[] }>> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  const response = await api.post('/assets/import', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
   return response.data;
 };
 

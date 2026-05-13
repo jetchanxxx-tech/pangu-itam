@@ -8,6 +8,8 @@ import * as contracts from './routes/contracts';
 import * as contractFiles from './routes/contract-files';
 import * as interfaces from './routes/interfaces';
 import * as dashboard from './routes/dashboard';
+import * as wiki from './routes/wiki';
+import { handleTerminalWs } from './routes/terminal';
 
 export type Env = {
   DB: D1Database;
@@ -15,6 +17,7 @@ export type Env = {
   NOTIFICATION_ENABLE?: string;
   FEISHU_WEBHOOK?: string;
   FEISHU_SECRET?: string;
+  TERMINAL_GATEWAY_URL?: string;
 };
 
 const app = new Hono<{ Bindings: Env }>();
@@ -45,6 +48,9 @@ api.get('/assets', assets.list);
 api.post('/assets', assets.create);
 api.put('/assets/:id', assets.update);
 api.delete('/assets/:id', assets.remove);
+api.post('/assets/:id/archive', assets.archive);
+api.post('/assets/:id/unarchive', assets.unarchive);
+api.post('/assets/import', assets.importCsv);
 
 api.get('/contracts', contracts.list);
 api.get('/contracts/:id', contracts.get);
@@ -63,10 +69,18 @@ api.post('/interfaces', interfaces.create);
 api.put('/interfaces/:id', interfaces.update);
 api.delete('/interfaces/:id', interfaces.remove);
 
+api.get('/wiki', wiki.list);
+api.get('/wiki/categories', wiki.categories);
+api.get('/wiki/:id', wiki.get);
+api.post('/wiki', wiki.create);
+api.put('/wiki/:id', wiki.update);
+api.delete('/wiki/:id', wiki.remove);
+
 api.get('/ping', (c) =>
   c.json({ ok: true, data: { message: 'pong' } })
 );
 
+app.get('/api/v1/terminal/ws', (c) => handleTerminalWs(c.req.raw, c.env));
 app.route('/api/v1', api);
 
 export default app;

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Row, Statistic, Progress, List, Typography } from 'antd';
-import { ArrowUpOutlined, ArrowDownOutlined, CheckCircleOutlined, WarningOutlined, SafetyCertificateOutlined, AlertOutlined } from '@ant-design/icons';
+import { Card, Col, Row, Statistic, Typography, List } from 'antd';
+import {
+  CheckCircleOutlined, WarningOutlined, DesktopOutlined,
+  FileTextOutlined, ClockCircleOutlined, ThunderboltOutlined,
+} from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import { getDashboardStats, DashboardStats } from '../services/api';
 
@@ -16,95 +19,119 @@ const Dashboard: React.FC = () => {
         const result = await getDashboardStats();
         setStats(result.data);
       } catch (error) {
-        console.error("Failed to fetch dashboard stats", error);
+        console.error('Failed to fetch dashboard stats', error);
       }
     };
     fetchData();
   }, []);
 
-  const data = [
-    { title: t('dashboard.total_assets'), value: stats?.total_assets || 0, prefix: <ArrowUpOutlined />, color: '#3f8600' },
-    {
-      title: t('dashboard.ueba_risk_score'),
-      value: stats?.ueba_score || 0,
-      color: '#52c41a',
-      prefix: <SafetyCertificateOutlined />,
-      suffix: '/ 100',
-      desc: t('dashboard.user_behavior_analytics')
-    },
-    {
-      title: t('dashboard.active_alerts'),
-      value: stats?.active_alerts || 0,
-      color: '#cf1322',
-      prefix: <AlertOutlined />,
-      desc: t('dashboard.critical_issues')
-    },
-    { title: t('dashboard.sla_compliance'), value: stats?.sla_compliance || 0, suffix: '%', prefix: <CheckCircleOutlined />, color: '#3f8600' },
-    { title: t('dashboard.pending_audits'), value: stats?.pending_audits || 0, prefix: <ArrowDownOutlined />, color: '#faad14' },
-  ];
+  const slaColor = (stats?.sla_compliance ?? 100) >= 99 ? '#3f8600' : (stats?.sla_compliance ?? 100) >= 95 ? '#faad14' : '#cf1322';
 
   return (
     <div>
       <Title level={2} style={{ marginBottom: 24 }}>{t('menu.dashboard')}</Title>
-      
+
       <Row gutter={16} style={{ marginBottom: 24 }}>
-        {data.map((item, index) => (
-          <Col span={6} key={index}>
-            <Card bordered={false}>
-              <Statistic
-                title={item.title}
-                value={item.value}
-                precision={item.title.includes('SLA') ? 1 : 0}
-                valueStyle={{ color: item.color }}
-                prefix={item.prefix}
-                suffix={item.suffix}
-              />
-            </Card>
-          </Col>
-        ))}
+        <Col span={6}>
+          <Card bordered={false}>
+            <Statistic
+              title="资产总数"
+              value={stats?.total_assets ?? 0}
+              prefix={<DesktopOutlined />}
+              valueStyle={{ color: '#1890ff' }}
+            />
+            <div style={{ marginTop: 8, fontSize: 12, color: '#888' }}>
+              在线 {stats?.online_assets ?? 0} / 离线 {stats?.offline_assets ?? 0}
+            </div>
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card bordered={false}>
+            <Statistic
+              title="合同总数"
+              value={stats?.total_contracts ?? 0}
+              prefix={<FileTextOutlined />}
+              valueStyle={{ color: '#722ed1' }}
+            />
+            <div style={{ marginTop: 8, fontSize: 12, color: '#888' }}>
+              生效中 {stats?.active_contracts ?? 0} / 30天内到期 {stats?.expiring_contracts ?? 0}
+            </div>
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card bordered={false}>
+            <Statistic
+              title="SLA 合规率"
+              value={stats?.sla_compliance ?? 100}
+              suffix="%"
+              precision={2}
+              prefix={<CheckCircleOutlined />}
+              valueStyle={{ color: slaColor }}
+            />
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card bordered={false}>
+            <Statistic
+              title="告警待处理"
+              value={stats?.offline_assets ?? 0}
+              prefix={<WarningOutlined />}
+              valueStyle={{ color: (stats?.offline_assets ?? 0) > 0 ? '#cf1322' : '#3f8600' }}
+            />
+            <div style={{ marginTop: 8, fontSize: 12, color: '#888' }}>
+              离线或维护中的资产
+            </div>
+          </Card>
+        </Col>
       </Row>
 
       <Row gutter={16}>
         <Col span={12}>
-          <Card title={t('dashboard.system_health')} bordered={false}>
-            <Row gutter={16} align="middle">
-              <Col span={12} style={{ textAlign: 'center' }}>
-                <Progress type="dashboard" percent={98.5} strokeColor="#52c41a" />
-                <div style={{ marginTop: 10 }}>{t('dashboard.overall_health_score')}</div>
-              </Col>
-              <Col span={12}>
-                <List
-                  size="small"
-                  dataSource={['Network: 99.9%', 'Compute: 98.2%', 'Storage: 100%']}
-                  renderItem={(item) => <List.Item>{item}</List.Item>}
-                />
-              </Col>
-            </Row>
-          </Card>
-        </Col>
-        <Col span={12}>
-          <Card title={t('dashboard.recent_activity')} bordered={false}>
+          <Card title="系统健康" bordered={false}>
             <List
-              itemLayout="horizontal"
+              size="small"
               dataSource={[
-                { title: 'Server-01 CPU High', time: '10 mins ago', type: 'danger' },
-                { title: 'New Asset Added: MacBook Pro', time: '2 hours ago', type: 'success' },
-                { title: 'User Admin login from new IP', time: '5 hours ago', type: 'warning' },
+                { label: 'API 服务', status: 'online', desc: 'Workers 运行正常' },
+                { label: '数据库', status: 'online', desc: 'D1 连接正常' },
+                { label: '存储服务', status: 'online', desc: 'BLOB 存储可用' },
+                { label: '认证服务', status: 'online', desc: 'JWT 服务正常' },
               ]}
               renderItem={(item) => (
                 <List.Item>
                   <List.Item.Meta
-                    avatar={
-                      item.type === 'danger' ? <WarningOutlined style={{ color: 'red' }} /> :
-                      item.type === 'warning' ? <WarningOutlined style={{ color: 'orange' }} /> :
-                      <CheckCircleOutlined style={{ color: 'green' }} />
-                    }
-                    title={item.title}
-                    description={item.time}
+                    avatar={item.status === 'online' ? <CheckCircleOutlined style={{ color: 'green' }} /> : <WarningOutlined style={{ color: 'red' }} />}
+                    title={item.label}
+                    description={item.desc}
                   />
                 </List.Item>
               )}
             />
+          </Card>
+        </Col>
+        <Col span={12}>
+          <Card title="快速操作" bordered={false}>
+            <Row gutter={[16, 16]}>
+              <Col span={12}>
+                <Card size="small" hoverable onClick={() => window.location.href = '/assets'}>
+                  <Statistic title="资产管理" value="查看" prefix={<DesktopOutlined />} />
+                </Card>
+              </Col>
+              <Col span={12}>
+                <Card size="small" hoverable onClick={() => window.location.href = '/contracts'}>
+                  <Statistic title="合同管理" value="查看" prefix={<FileTextOutlined />} />
+                </Card>
+              </Col>
+              <Col span={12}>
+                <Card size="small" hoverable onClick={() => window.location.href = '/import'}>
+                  <Statistic title="数据导入" value="导入" prefix={<ThunderboltOutlined />} />
+                </Card>
+              </Col>
+              <Col span={12}>
+                <Card size="small" hoverable onClick={() => window.location.href = '/help'}>
+                  <Statistic title="帮助中心" value="查看" prefix={<ClockCircleOutlined />} />
+                </Card>
+              </Col>
+            </Row>
           </Card>
         </Col>
       </Row>

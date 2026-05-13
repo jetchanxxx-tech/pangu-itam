@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Tag, Space, Button, Input, Select, Typography, Modal, Form, message, Popconfirm } from 'antd';
-import { SearchOutlined, PlusOutlined, DesktopOutlined, CloudServerOutlined, AppstoreOutlined, CodeOutlined, LinkOutlined, WindowsOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { SearchOutlined, PlusOutlined, DesktopOutlined, CloudServerOutlined, AppstoreOutlined, CodeOutlined, LinkOutlined, WindowsOutlined, EditOutlined, DeleteOutlined, FolderOpenOutlined, UndoOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { getAssets, createAsset, updateAsset, deleteAsset, Asset } from '../services/api';
+import { getAssets, createAsset, updateAsset, deleteAsset, archiveAsset, unarchiveAsset, Asset } from '../services/api';
 
 const { Title } = Typography;
 
@@ -14,6 +14,7 @@ const AssetList: React.FC = () => {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [loading, setLoading] = useState(false);
   const [typeFilter, setTypeFilter] = useState('All');
+  const [showArchived, setShowArchived] = useState(false);
   const [pagination, setPagination] = useState({ current: 1, pageSize: 20, total: 0 });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingAsset, setEditingAsset] = useState<Asset | null>(null);
@@ -24,7 +25,11 @@ const AssetList: React.FC = () => {
   const fetchAssets = async (page = 1, pageSize = 20) => {
     setLoading(true);
     try {
-      const res = await getAssets({ page, limit: pageSize, search: searchText || undefined });
+      const res = await getAssets({
+        page, limit: pageSize,
+        search: searchText || undefined,
+        archived: showArchived ? '1' : undefined,
+      });
       setAssets(res.data);
       setPagination(prev => ({ ...prev, current: page, total: res.pagination.total }));
     } catch {
@@ -136,7 +141,16 @@ const AssetList: React.FC = () => {
         <Space size="middle">
           <a onClick={() => handleConnect(record)}>{t('asset_list.connect')}</a>
           <a onClick={() => openEdit(record)}><EditOutlined /></a>
-          <Popconfirm title="Delete this asset?" onConfirm={() => handleDelete(record.id)}>
+          {showArchived ? (
+            <Popconfirm title="取消归档？" onConfirm={async () => { await unarchiveAsset(record.id); fetchAssets(pagination.current, pagination.pageSize); }}>
+              <a style={{ color: 'green' }}><UndoOutlined /></a>
+            </Popconfirm>
+          ) : (
+            <Popconfirm title="归档此资产？" onConfirm={async () => { await archiveAsset(record.id); fetchAssets(pagination.current, pagination.pageSize); }}>
+              <a style={{ color: 'orange' }}><FolderOpenOutlined /></a>
+            </Popconfirm>
+          )}
+          <Popconfirm title="删除此资产？" onConfirm={() => handleDelete(record.id)}>
             <a style={{ color: 'red' }}><DeleteOutlined /></a>
           </Popconfirm>
         </Space>
@@ -163,6 +177,9 @@ const AssetList: React.FC = () => {
             <Select.Option value="Container">{t('asset_list.asset_types.container')}</Select.Option>
             <Select.Option value="Software">{t('asset_list.asset_types.software')}</Select.Option>
           </Select>
+          <Button onClick={() => setShowArchived(!showArchived)} type={showArchived ? 'primary' : 'default'}>
+            {showArchived ? '查看活跃资产' : '查看归档'}
+          </Button>
           <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>{t('asset_list.add_asset')}</Button>
         </Space>
       </div>
