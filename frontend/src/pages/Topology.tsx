@@ -20,7 +20,7 @@ const Topology: React.FC = () => {
       </div>
       
       <Card style={{ flex: 1, minHeight: 500, display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#f0f2f5' }}>
-        {/* Simple SVG Mock for Topology */}
+        {/* 系统架构拓扑图 */}
         <svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
             {/* Definitions for arrow markers */}
             <defs>

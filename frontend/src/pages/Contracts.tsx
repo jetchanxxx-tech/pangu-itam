@@ -200,7 +200,7 @@ const Contracts: React.FC = () => {
         <Title level={2} style={{ margin: 0 }}>Contracts</Title>
         <Space>
           <Input
-            placeholder="Search contracts..."
+            placeholder="搜索合同..."
             prefix={<SearchOutlined />}
             value={searchText}
             onChange={e => setSearchText(e.target.value)}

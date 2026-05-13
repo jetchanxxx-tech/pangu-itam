@@ -36,23 +36,23 @@ const Login: React.FC = () => {
         <Space direction="vertical" size="middle" style={{ width: '100%' }}>
           <div style={{ textAlign: 'center' }}>
             <Title level={2} style={{ margin: 0 }}>ITAM</Title>
-            <Text type="secondary">IT Asset Management System</Text>
+            <Text type="secondary">IT 资产管理系统</Text>
           </div>
           <Form onFinish={handleLogin} layout="vertical" size="large">
-            <Form.Item name="username" rules={[{ required: true, message: 'Please enter username' }]}>
-              <Input prefix={<UserOutlined />} placeholder="Username" />
+            <Form.Item name="username" rules={[{ required: true, message: '请输入用户名' }]}>
+              <Input prefix={<UserOutlined />} placeholder="用户名" />
             </Form.Item>
-            <Form.Item name="password" rules={[{ required: true, message: 'Please enter password' }]}>
-              <Input.Password prefix={<LockOutlined />} placeholder="Password" />
+            <Form.Item name="password" rules={[{ required: true, message: '请输入密码' }]}>
+              <Input.Password prefix={<LockOutlined />} placeholder="密码" />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" loading={loading} block>
-                Sign In
+                登录
               </Button>
             </Form.Item>
           </Form>
           <div style={{ textAlign: 'center' }}>
-            <Text type="secondary">Demo: admin/admin123 or user/user123</Text>
+            <Text type="secondary">默认账户: admin / admin123</Text>
           </div>
         </Space>
       </Card>

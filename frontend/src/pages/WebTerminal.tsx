@@ -189,7 +189,7 @@ const WebTerminal: React.FC = () => {
               }}>下载 RDP 连接文件</Button>
               <Button size="small" onClick={() => {
                 message.info('SSH 命令行: ssh user@host -p port');
-              }}>SSH 命令行示例</Button>
+              }}>SSH 命令行帮助</Button>
             </Space>
           </div>
         </Card>

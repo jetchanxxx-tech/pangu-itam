@@ -48,16 +48,14 @@ const Settings: React.FC = () => {
 
   const AuditLogs = () => (
     <List
-      dataSource={[
-        { action: 'Login', user: 'admin', time: '2023-10-27 10:00:00', ip: '192.168.1.5' },
-        { action: 'Delete Asset', user: 'john.doe', time: '2023-10-27 09:45:12', ip: '10.0.0.2' },
-      ]}
-      renderItem={(item) => (
+      dataSource={[]}
+      locale={{ emptyText: '暂无审计记录' }}
+      renderItem={(item: { action: string; user: string; time: string; ip: string }) => (
         <List.Item>
           <Typography.Text>[{item.time}] </Typography.Text>
-          <Tag color="geekblue">{item.user}</Tag> 
-          {t('settings.audit.performed')} 
-          <Tag color="volcano">{item.action}</Tag> 
+          <Tag color="geekblue">{item.user}</Tag>
+          {t('settings.audit.performed')}
+          <Tag color="volcano">{item.action}</Tag>
           {t('settings.audit.from')} {item.ip}
         </List.Item>
       )}

@@ -107,7 +107,7 @@ const Interfaces: React.FC = () => {
         <Title level={2} style={{ margin: 0 }}>Interfaces</Title>
         <Space>
           <Input
-            placeholder="Search interfaces..."
+            placeholder="搜索接口..."
             prefix={<SearchOutlined />}
             value={searchText}
             onChange={e => setSearchText(e.target.value)}

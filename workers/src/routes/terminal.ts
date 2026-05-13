@@ -46,7 +46,7 @@ export function handleTerminalWs(request: Request, env: Env): Response {
 
     serverWs.send('终端网关已就绪，等待输入...\r\n');
   } else {
-    // No gateway configured — terminal is in demo mode
+    // 未配置网关 — 终端处于独立模式，显示配置指引
     serverWs.send('\n\x1b[1;33m⚠ 终端网关未配置\x1b[0m\n');
     serverWs.send('请设置环境变量 TERMINAL_GATEWAY_URL 以启用真实 SSH 代理。\n');
     serverWs.send('部署终端网关服务 (如 ttyd) 并将其 URL 配置到 Workers 环境变量。\n\n');
