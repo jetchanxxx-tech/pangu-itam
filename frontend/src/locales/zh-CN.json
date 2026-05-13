@@ -9,7 +9,8 @@
     "topology": "拓扑关系图",
     "import": "数据导入",
     "settings": "系统设置",
-    "wiki": "资产知识库"
+    "wiki": "资产知识库",
+    "help": "帮助中心"
   },
   "theme": {
     "dark": "深色模式",

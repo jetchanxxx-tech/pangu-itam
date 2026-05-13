@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card, Typography, Empty, Button } from 'antd';
-import { DeploymentUnitOutlined, ReloadOutlined, ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons';
+import { Card, Typography, Button } from 'antd';
+import { ReloadOutlined, ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 
 const { Title } = Typography;

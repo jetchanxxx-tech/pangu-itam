@@ -34,17 +34,17 @@ type RedisConfig struct {
 }
 
 type NotificationConfig struct {
-	Enable bool     `mapstructure:"enable"`
+	Enable bool      `mapstructure:"enable"`
 	SMS    SMSConfig `mapstructure:"sms"`
 	IM     IMConfig  `mapstructure:"im"`
 }
 
 type SMSConfig struct {
-	Provider      string `mapstructure:"provider"` // e.g., "aliyun", "tencent"
-	AccessKeyID   string `mapstructure:"access_key_id"`
+	Provider        string `mapstructure:"provider"` // e.g., "aliyun", "tencent"
+	AccessKeyID     string `mapstructure:"access_key_id"`
 	AccessKeySecret string `mapstructure:"access_key_secret"`
-	SignName      string `mapstructure:"sign_name"`
-	TemplateCode  string `mapstructure:"template_code"`
+	SignName        string `mapstructure:"sign_name"`
+	TemplateCode    string `mapstructure:"template_code"`
 }
 
 type IMConfig struct {
@@ -65,26 +65,24 @@ func LoadConfig() *Config {
 	viper.SetDefault("database.driver", "sqlite")
 	viper.SetDefault("database.dbname", "itam.db")
 
-	var config Config
-
 	if err := viper.ReadInConfig(); err != nil {
 		log.Printf("Warning: Config file not found, using defaults. Error: %v", err)
+	}
+
+	var config Config
+	if err := viper.Unmarshal(&config); err != nil {
+		log.Fatalf("Unable to decode into struct, %v", err)
 	}
 
 	// Watch for changes
 	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
 		log.Printf("Config file changed: %s", e.Name)
-		// Here you can add logic to reload config into the struct if needed,
-		// or notify other components.
+		// Reload config into the struct
 		if err := viper.Unmarshal(&config); err != nil {
 			log.Printf("Unable to decode into struct after change, %v", err)
 		}
 	})
-
-	if err := viper.Unmarshal(&config); err != nil {
-		log.Fatalf("Unable to decode into struct, %v", err)
-	}
 
 	return &config
 }

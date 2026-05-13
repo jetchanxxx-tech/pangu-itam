@@ -9,7 +9,8 @@
     "topology": "Topology Graph",
     "import": "Data Import",
     "settings": "System Settings",
-    "wiki": "Knowledge Base"
+    "wiki": "Knowledge Base",
+    "help": "Help Center"
   },
   "theme": {
     "dark": "Dark Mode",

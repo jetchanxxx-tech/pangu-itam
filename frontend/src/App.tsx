@@ -5,16 +5,17 @@ import { useThemeStore } from './store/themeStore';
 import './i18n';
 
 import MainLayout from './components/MainLayout';
+import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import AssetList from './pages/AssetList';
 import Topology from './pages/Topology';
+import Wiki from './pages/Wiki';
+import Contracts from './pages/Contracts';
+import Interfaces from './pages/Interfaces';
 import ImportData from './pages/ImportData';
 import Settings from './pages/Settings';
-import Wiki from './pages/Wiki';
+import Help from './pages/Help';
 import WebTerminal from './pages/WebTerminal';
-import ContractList from './pages/ContractList';
-import ContractDetail from './pages/ContractDetail';
-import InterfaceList from './pages/InterfaceList';
 
 const App: React.FC = () => {
   const { mode } = useThemeStore();
@@ -27,18 +28,19 @@ const App: React.FC = () => {
     >
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/terminal" element={<WebTerminal />} />
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="assets" element={<AssetList />} />
+            <Route path="contracts" element={<Contracts />} />
+            <Route path="interfaces" element={<Interfaces />} />
             <Route path="topology" element={<Topology />} />
+            <Route path="wiki" element={<Wiki />} />
             <Route path="import" element={<ImportData />} />
             <Route path="settings" element={<Settings />} />
-            <Route path="wiki" element={<Wiki />} />
-            <Route path="contracts" element={<ContractList />} />
-            <Route path="contracts/:id" element={<ContractDetail />} />
-            <Route path="interfaces" element={<InterfaceList />} />
+            <Route path="help" element={<Help />} />
           </Route>
-          <Route path="/terminal" element={<WebTerminal />} />
         </Routes>
       </BrowserRouter>
     </ConfigProvider>

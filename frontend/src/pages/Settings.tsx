@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs, Form, Input, Button, Switch, List, Avatar, Tag, Typography } from 'antd';
-import { UserOutlined, SafetyCertificateOutlined, SettingOutlined } from '@ant-design/icons';
+import { SafetyCertificateOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 
 const { Title } = Typography;

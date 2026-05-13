@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Typography, Alert } from 'antd';
 import { useTranslation } from 'react-i18next';
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const WebTerminal: React.FC = () => {
   const { t } = useTranslation();

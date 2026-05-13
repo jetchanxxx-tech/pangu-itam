@@ -13,8 +13,8 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getDashboardStats();
-        setStats(data);
+        const result = await getDashboardStats();
+        setStats(result.data);
       } catch (error) {
         console.error("Failed to fetch dashboard stats", error);
       }

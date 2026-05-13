@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Layout, Menu, Button, Space, Typography, theme as antTheme } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Layout, Menu, Button, theme as antTheme, Dropdown } from 'antd';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -11,20 +11,37 @@ import {
   ReadOutlined,
   FileTextOutlined,
   ApiOutlined,
+  UserOutlined,
+  LogoutOutlined,
+  QuestionCircleOutlined,
 } from '@ant-design/icons';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useThemeStore } from '../store/themeStore';
 
 const { Header, Sider, Content } = Layout;
-const { Title } = Typography;
-
 const MainLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const { mode, toggleTheme } = useThemeStore();
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const username = localStorage.getItem('username') || 'User';
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('role');
+    navigate('/login');
+  };
 
   const {
     token: { colorBgContainer },
@@ -76,6 +93,11 @@ const MainLayout: React.FC = () => {
       icon: <SettingOutlined />,
       label: t('menu.settings'),
     },
+    {
+      key: '/help',
+      icon: <QuestionCircleOutlined />,
+      label: t('menu.help'),
+    },
   ];
 
   return (
@@ -102,15 +124,22 @@ const MainLayout: React.FC = () => {
               height: 64,
             }}
           />
-          <div style={{ marginRight: 24, display: 'flex', alignItems: 'center' }}>
-             <Space>
-                <Button onClick={toggleTheme} type="text">
-                  {mode === 'dark' ? '🌞' : '🌙'}
-                </Button>
-                <Button onClick={changeLanguage} type="text">
-                  {i18n.language === 'en' ? '🇨🇳' : '🇺🇸'}
-                </Button>
-            </Space>
+          <div style={{ marginRight: 24, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Button onClick={toggleTheme} type="text">
+              {mode === 'dark' ? '🌞' : '🌙'}
+            </Button>
+            <Button onClick={changeLanguage} type="text">
+              {i18n.language === 'en' ? '🇨🇳' : '🇺🇸'}
+            </Button>
+            <Dropdown menu={{
+              items: [
+                { key: 'user', icon: <UserOutlined />, label: username, disabled: true },
+                { type: 'divider' },
+                { key: 'logout', icon: <LogoutOutlined />, label: 'Logout', danger: true, onClick: handleLogout },
+              ]
+            }}>
+              <Button icon={<UserOutlined />} type="text">{username}</Button>
+            </Dropdown>
           </div>
         </Header>
         <Content

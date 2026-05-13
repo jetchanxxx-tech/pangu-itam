@@ -8,7 +8,7 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
-	"github.com/glebarez/sqlite"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -20,7 +20,6 @@ func InitDB(cfg *conf.Config) {
 
 	switch cfg.Database.Driver {
 	case "mysql":
-		// DSN: user:password@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local
 		dsn = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 			cfg.Database.User,
 			cfg.Database.Password,
@@ -42,7 +41,6 @@ func InitDB(cfg *conf.Config) {
 		dsn = cfg.Database.DbName
 		DB, err = gorm.Open(sqlite.Open(dsn), &gorm.Config{})
 	default:
-		// Default to sqlite if unknown
 		dsn = "itam.db"
 		DB, err = gorm.Open(sqlite.Open(dsn), &gorm.Config{})
 	}
@@ -51,8 +49,13 @@ func InitDB(cfg *conf.Config) {
 		log.Fatalf("failed to connect database: %v", err)
 	}
 
-	// Auto Migrate
-	if err := DB.AutoMigrate(&model.Asset{}, &model.Contract{}, &model.ContractFile{}, &model.SystemInterface{}); err != nil {
+	// Auto Migrate - 迁移所有模型
+	if err := DB.AutoMigrate(
+		&model.Asset{},
+		&model.SystemInterface{},
+		&model.Contract{},
+		&model.ContractFile{},
+	); err != nil {
 		log.Fatalf("failed to migrate database: %v", err)
 	}
 

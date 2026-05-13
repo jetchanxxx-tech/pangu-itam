@@ -1,12 +1,57 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api/v1',
-  timeout: 5000,
+  baseURL: import.meta.env.DEV ? '/api/v1' : 'https://itam-api.jet-s.workers.dev/api/v1',
+  timeout: 30000,
 });
+
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('username');
+      localStorage.removeItem('role');
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
+// Unified response types
+export interface ApiOk<T> {
+  ok: true;
+  data: T;
+}
+
+export interface ApiList<T> {
+  ok: true;
+  data: T[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
 
 export interface DashboardStats {
   total_assets: number;
+  total_contracts: number;
+  active_contracts: number;
   ueba_score: number;
   active_alerts: number;
   sla_compliance: number;
@@ -14,7 +59,7 @@ export interface DashboardStats {
 }
 
 export interface Asset {
-  ID: number;
+  id: number;
   name: string;
   type: string;
   platform: string;
@@ -24,136 +69,189 @@ export interface Asset {
   owner: string;
   description: string;
   specs: string;
-  CreatedAt: string;
-  UpdatedAt: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Contract {
-  ID: number;
+  id: number;
   name: string;
-  number: string;
+  code: string;
+  type: string;
+  status: string;
+  vendor: string;
   amount: number;
   currency: string;
+  start_date: string;
+  end_date: string;
   sign_date: string;
-  expire_date: string;
-  vendor: string;
-  status: string;
   description: string;
-  CreatedAt: string;
-  UpdatedAt: string;
+  owner: string;
+  contact_info: string;
+  asset_id?: number | null;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface ContractFile {
-  ID: number;
+  id: number;
   contract_id: number;
   file_name: string;
-  file_path: string;
+  file_size: number;
+  file_type: string;
   version: number;
   uploaded_by: string;
-  CreatedAt: string;
+  remark: string;
+  created_at: string;
 }
 
 export interface SystemInterface {
-  ID: number;
+  id: number;
   name: string;
   method: string;
   url: string;
   description: string;
   status: string;
-  CreatedAt: string;
-  UpdatedAt: string;
+  created_at: string;
+  updated_at: string;
 }
 
-export const getDashboardStats = async () => {
-  const response = await api.get<DashboardStats>('/dashboard/stats');
+export interface UserInfo {
+  user_id: number;
+  username: string;
+  role: string;
+}
+
+// Auth
+export const login = async (username: string, password: string): Promise<ApiOk<{ token: string; username: string; role: string }>> => {
+  const response = await api.post('/auth/login', { username, password });
+  return response.data;
+};
+
+export const logout = async (): Promise<ApiOk<{ message: string }>> => {
+  const response = await api.post('/auth/logout');
+  return response.data;
+};
+
+export const getUserInfo = async (): Promise<ApiOk<UserInfo>> => {
+  const response = await api.get('/user/me');
+  return response.data;
+};
+
+export const changePassword = async (oldPassword: string, newPassword: string): Promise<ApiOk<{ message: string }>> => {
+  const response = await api.post('/user/change-password', { oldPassword, newPassword });
+  return response.data;
+};
+
+// Dashboard
+export const getDashboardStats = async (): Promise<ApiOk<DashboardStats>> => {
+  const response = await api.get('/dashboard/stats');
   return response.data;
 };
 
 // Assets
-export const getAssets = async () => {
-  const response = await api.get<Asset[]>('/assets');
+export const getAssets = async (params?: {
+  page?: number; limit?: number; sort?: string; order?: 'asc' | 'desc'; search?: string;
+}): Promise<ApiList<Asset>> => {
+  const response = await api.get('/assets', { params });
   return response.data;
 };
 
-export const createAsset = async (data: Partial<Asset>) => {
-  const response = await api.post<Asset>('/assets', data);
+export const createAsset = async (data: Partial<Asset>): Promise<ApiOk<Asset>> => {
+  const response = await api.post('/assets', data);
   return response.data;
 };
 
-export const updateAsset = async (id: number, data: Partial<Asset>) => {
-  const response = await api.put<Asset>(`/assets/${id}`, data);
+export const updateAsset = async (id: number, data: Partial<Asset>): Promise<ApiOk<Asset>> => {
+  const response = await api.put(`/assets/${id}`, data);
   return response.data;
 };
 
-export const deleteAsset = async (id: number) => {
+export const deleteAsset = async (id: number): Promise<ApiOk<{ message: string }>> => {
   const response = await api.delete(`/assets/${id}`);
   return response.data;
 };
 
 // Contracts
-export const getContracts = async () => {
-  const response = await api.get<Contract[]>('/contracts');
+export const getContracts = async (params?: {
+  page?: number; limit?: number; sort?: string; order?: 'asc' | 'desc'; search?: string;
+}): Promise<ApiList<Contract>> => {
+  const response = await api.get('/contracts', { params });
   return response.data;
 };
 
-export const getContract = async (id: number) => {
-  const response = await api.get<Contract>(`/contracts/${id}`);
+export const getContract = async (id: number): Promise<ApiOk<Contract>> => {
+  const response = await api.get(`/contracts/${id}`);
   return response.data;
 };
 
-export const createContract = async (data: Partial<Contract>) => {
-  const response = await api.post<Contract>('/contracts', data);
+export const createContract = async (data: Partial<Contract>): Promise<ApiOk<Contract>> => {
+  const response = await api.post('/contracts', data);
   return response.data;
 };
 
-export const updateContract = async (id: number, data: Partial<Contract>) => {
-  const response = await api.put<Contract>(`/contracts/${id}`, data);
+export const updateContract = async (id: number, data: Partial<Contract>): Promise<ApiOk<Contract>> => {
+  const response = await api.put(`/contracts/${id}`, data);
   return response.data;
 };
 
-export const deleteContract = async (id: number) => {
+export const deleteContract = async (id: number): Promise<ApiOk<{ message: string }>> => {
   const response = await api.delete(`/contracts/${id}`);
   return response.data;
 };
 
 // Contract Files
-export const getContractFiles = async (contractId: number) => {
-  const response = await api.get<ContractFile[]>(`/contracts/${contractId}/files`);
+export const getContractFiles = async (contractId: number): Promise<ApiOk<ContractFile[]>> => {
+  const response = await api.get(`/contracts/${contractId}/files`);
   return response.data;
 };
 
-export const uploadContractFile = async (contractId: number, file: File) => {
+export const uploadContractFile = async (contractId: number, file: File, remark?: string): Promise<ApiOk<ContractFile>> => {
   const formData = new FormData();
   formData.append('file', file);
-  const response = await api.post<ContractFile>(`/contracts/${contractId}/files`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
+  if (remark) formData.append('remark', remark);
+  const response = await api.post(`/contracts/${contractId}/files`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
   });
   return response.data;
 };
 
-export const getContractFileDownloadUrl = (fileId: number) => {
-  return `http://localhost:8080/api/v1/contract-files/${fileId}/download`;
+export const downloadContractFile = async (fileId: number): Promise<Blob> => {
+  const response = await api.get(`/contract-files/${fileId}/download`, {
+    responseType: 'blob',
+  });
+  return response.data;
+};
+
+export const deleteContractFile = async (fileId: number): Promise<ApiOk<{ message: string }>> => {
+  const response = await api.delete(`/contract-files/${fileId}`);
+  return response.data;
 };
 
 // Interfaces
-export const getInterfaces = async () => {
-  const response = await api.get<SystemInterface[]>('/interfaces');
+export const getInterfaces = async (params?: {
+  page?: number; limit?: number; sort?: string; order?: 'asc' | 'desc'; search?: string;
+}): Promise<ApiList<SystemInterface>> => {
+  const response = await api.get('/interfaces', { params });
   return response.data;
 };
 
-export const createInterface = async (data: Partial<SystemInterface>) => {
-  const response = await api.post<SystemInterface>('/interfaces', data);
+export const getInterface = async (id: number): Promise<ApiOk<SystemInterface>> => {
+  const response = await api.get(`/interfaces/${id}`);
   return response.data;
 };
 
-export const updateInterface = async (id: number, data: Partial<SystemInterface>) => {
-  const response = await api.put<SystemInterface>(`/interfaces/${id}`, data);
+export const createInterface = async (data: Partial<SystemInterface>): Promise<ApiOk<SystemInterface>> => {
+  const response = await api.post('/interfaces', data);
   return response.data;
 };
 
-export const deleteInterface = async (id: number) => {
+export const updateInterface = async (id: number, data: Partial<SystemInterface>): Promise<ApiOk<SystemInterface>> => {
+  const response = await api.put(`/interfaces/${id}`, data);
+  return response.data;
+};
+
+export const deleteInterface = async (id: number): Promise<ApiOk<{ message: string }>> => {
   const response = await api.delete(`/interfaces/${id}`);
   return response.data;
 };

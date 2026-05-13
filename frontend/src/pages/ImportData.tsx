@@ -1,6 +1,6 @@
 import React from 'react';
 import { Upload, Button, Typography, Steps, Card, Alert } from 'antd';
-import { UploadOutlined, FileExcelOutlined, CloudUploadOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, CloudUploadOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 
 const { Title, Text } = Typography;

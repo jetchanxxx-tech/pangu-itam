@@ -14,6 +14,7 @@ func NewInterfaceHandler() *InterfaceHandler {
 	return &InterfaceHandler{}
 }
 
+// GetInterfaces 获取所有接口列表
 func (h *InterfaceHandler) GetInterfaces(c *gin.Context) {
 	var interfaces []model.SystemInterface
 	result := data.DB.Find(&interfaces)
@@ -24,6 +25,18 @@ func (h *InterfaceHandler) GetInterfaces(c *gin.Context) {
 	c.JSON(http.StatusOK, interfaces)
 }
 
+// GetInterface 获取单个接口详情
+func (h *InterfaceHandler) GetInterface(c *gin.Context) {
+	id := c.Param("id")
+	var iface model.SystemInterface
+	if err := data.DB.First(&iface, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Interface not found"})
+		return
+	}
+	c.JSON(http.StatusOK, iface)
+}
+
+// CreateInterface 创建新接口
 func (h *InterfaceHandler) CreateInterface(c *gin.Context) {
 	var iface model.SystemInterface
 	if err := c.ShouldBindJSON(&iface); err != nil {
@@ -39,6 +52,7 @@ func (h *InterfaceHandler) CreateInterface(c *gin.Context) {
 	c.JSON(http.StatusOK, iface)
 }
 
+// UpdateInterface 更新接口
 func (h *InterfaceHandler) UpdateInterface(c *gin.Context) {
 	var iface model.SystemInterface
 	id := c.Param("id")
@@ -57,6 +71,7 @@ func (h *InterfaceHandler) UpdateInterface(c *gin.Context) {
 	c.JSON(http.StatusOK, iface)
 }
 
+// DeleteInterface 删除接口
 func (h *InterfaceHandler) DeleteInterface(c *gin.Context) {
 	id := c.Param("id")
 	if err := data.DB.Delete(&model.SystemInterface{}, id).Error; err != nil {

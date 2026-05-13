@@ -1,0 +1,25 @@
+{
+  "name": "itam-workers-api",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8787",
+    "deploy": "wrangler deploy",
+    "db:init": "wrangler d1 create itam-db",
+    "db:migrate": "wrangler d1 execute itam-db --file=src/db/schema.sql",
+    "db:seed": "wrangler d1 execute itam-db --file=src/db/seed.sql",
+    "db:list": "wrangler d1 execute itam-db --command='.tables'",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "hono": "^4.6.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250204.0",
+    "esbuild": "^0.28.0",
+    "playwright": "^1.60.0",
+    "typescript": "^5.7.0",
+    "wrangler": "^3.107.0"
+  }
+}
