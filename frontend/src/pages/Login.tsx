@@ -90,11 +90,6 @@ const Login: React.FC = () => {
             </Form.Item>
           </Form>
 
-          <div style={{ padding: '12px', background: '#F3E8FF', borderRadius: 8 }}>
-            <Text style={{ fontSize: 12, color: '#6200EE' }}>
-              默认账户: admin / admin123
-            </Text>
-          </div>
         </Space>
       </Card>
     </div>
