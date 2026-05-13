@@ -1,0 +1,85 @@
+/* === Pangu ITAM Global Theme === */
+/* Color Palette: #6200EE #3700B3 #03DAC6 #018786 */
+
+/* --- Sidebar Dark Menu Overrides --- */
+.ant-layout-sider .ant-menu-dark {
+  background: transparent !important;
+}
+.ant-layout-sider .ant-menu-dark .ant-menu-item {
+  color: #B8A9D4;
+  border-radius: 8px;
+  margin: 2px 12px;
+  width: auto;
+}
+.ant-layout-sider .ant-menu-dark .ant-menu-item:hover {
+  color: #FFFFFF;
+  background: #2A1B4D !important;
+}
+.ant-layout-sider .ant-menu-dark .ant-menu-item-selected {
+  background: linear-gradient(135deg, #6200EE, #3700B3) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 12px rgba(98, 0, 238, 0.4);
+}
+.ant-layout-sider .ant-menu-dark .ant-menu-item .anticon {
+  color: inherit;
+}
+.ant-layout-sider .ant-menu-dark .ant-menu-submenu-title {
+  color: #B8A9D4;
+}
+.ant-layout-sider .ant-menu-dark .ant-menu-submenu-title:hover {
+  color: #FFFFFF;
+}
+
+/* --- Accent Elements --- */
+.ant-tag.ant-tag-green,
+.ant-tag.ant-tag-success {
+  background: rgba(3, 218, 198, 0.15);
+  border-color: #03DAC6;
+  color: #018786;
+}
+.ant-btn-primary {
+  box-shadow: 0 2px 8px rgba(98, 0, 238, 0.3);
+}
+.ant-btn-primary:hover {
+  box-shadow: 0 4px 16px rgba(98, 0, 238, 0.4);
+}
+
+/* --- Dashboard Cards --- */
+.ant-card {
+  border-radius: 12px;
+}
+
+/* --- Tables --- */
+.ant-table-wrapper .ant-table-thead > tr > th {
+  background: rgba(98, 0, 238, 0.04);
+  color: #6200EE;
+  font-weight: 600;
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #BB86FC;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6200EE;
+}
+
+/* --- Links & Selection --- */
+::selection {
+  background: rgba(98, 0, 238, 0.2);
+  color: #1E1235;
+}
+a {
+  color: #6200EE;
+}
+a:hover {
+  color: #3700B3;
+}
